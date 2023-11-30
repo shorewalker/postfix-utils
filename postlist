@@ -1,0 +1,2 @@
+#!/bin/bash
+postqueue -p | grep -Eo '@[^ ]+' | sort | uniq -c | sort -n | nl
