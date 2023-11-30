@@ -1,0 +1,18 @@
+#!/bin/bash
+
+usage() {
+        echo "${0/*\/} will remove all mail from line number including and after the listed number on postclear"
+        echo "postclear"
+        echo "${0/*\/} <linenumber>"
+}
+
+if [ $# -eq 0 ]; then
+        usage 1>&2 ;
+        exit 1;
+fi
+if [ $# -gt 1 ]; then
+        usage 1>&2 ;
+        exit 2;
+fi
+
+postclear --bounce $(postqueue -p | grep -Eo '@[^ ]+' | sort | uniq -c | sort -n | nl | tail -n +$1 | awk '{print $3}')
